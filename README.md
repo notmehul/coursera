@@ -1,2 +1,3 @@
 # coursera
-A repo with stuff from all my courses I have done
+
+Hello not_mehul, I see that you have started yet another course on coursera, make sure you complete the older ones lol
