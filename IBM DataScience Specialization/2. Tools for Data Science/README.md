@@ -2,7 +2,7 @@
 
 <img src="https://i.imgur.com/YCFnjvg.png" alt="Smiley face" height="300" width="600">
 
-![IBM](http://i.imgur.com/Qktqnu1.png) INSTRUCTORS
+![IBM](http://i.imgur.com/Qktqnu1.png) 
 #### Instructors: Joseph Santarcangelo
 
 ## Course Description
