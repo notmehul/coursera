@@ -2,7 +2,7 @@
 
 # Table of Contents:
 1. [Approaching the Problem](#palindrome-approaching-the-problem)
-2. [Algorithm 1](#Palindrome:-Algorithm-1)
+2. [Algorithm 1](#palindrome-algorithm-1)
 
 # Palindrome: Approaching the Problem
 ## Introduction
