@@ -6,6 +6,8 @@
     * [Code](#code)
 3. [Algorithm 2](#palindrome-algorithm-2)
     * [Code](#code-1)
+4. [Algorithm 3](#palindrome-algorithm-3)
+	* [Code](#code-2)
 
 # Palindrome: Approaching the Problem
 ## Introduction
