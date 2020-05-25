@@ -3,6 +3,7 @@
 # Table of Contents:
 1. [Approaching the Problem](#palindrome-approaching-the-problem)
 2. [Algorithm 1](#palindrome-algorithm-1)
+3. [Algorithm 2](#palindrome-algorithm-2)
 
 # Palindrome: Approaching the Problem
 ## Introduction
@@ -56,7 +57,9 @@ To determine whether a string is a palindrome, the first algorithm we explored w
 For example, the reverse of the string "noon" is "noon". Since the reversed string is the same as the original string, "noon" is a palindrome.
 
 For the string "dented", the reverse of the string "dented" is "detned". Since the reversed string is not the same as the original string, "dented" is not a palindrome.
-Code
+
+### Code
+
 ```python
 def reverse(s):
     """ (str) -> str
@@ -104,8 +107,9 @@ For example, the first half of the string "noon" is "no" and the second half is 
 For a string with an odd length, let's consider "racecar". When splitting the string into two halves, we omit the middle character, "e". The first half of the string is "rac" and the second half of the string is "car". The reverse of the second half is "rac". Since the first half is equal to the reverse of the second half, "racecar" is a palindrome.
 
 Finally, for a string that is not a palindrome, let's consider "dented". The first half of the string is "den" and the second half of the string is "ted". The reverse of the second half is "det". Since the first half is not equal to the reverse of the second half, "dented" is not a palindrome.
-Code
 
+### Code
+```python
 def is_palindrome_v2(s):
     """ (str) -> bool
 
@@ -144,3 +148,4 @@ def reverse(s):
         rev = ch + rev
 
     return rev
+```
