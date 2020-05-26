@@ -8,6 +8,8 @@
     * [Code](#code-1)
 4. [Algorithm 3](#palindrome-algorithm-3)
 	* [Code](#code-2)
+5. [Restaurant Reccomentation](#the-restaurant-recommendation-problem)
+	
 
 # Palindrome: Approaching the Problem
 ## Introduction
