@@ -212,10 +212,10 @@ The problem we'll be tackling is a restaurant recommendation system.
 
 We are given a list of restaurants that contains:
 
-    * The name of the restaurant.
-    * The percentage of people who recommended the restaurant.
-    * The price range of the restaurant.
-    * The type of food served by the restaurant. 
+    The name of the restaurant.
+    The percentage of people who recommended the restaurant.
+    The price range of the restaurant.
+    The type of food served by the restaurant. 
 
 The program will make a recommendation to the user based on this data.
 
@@ -224,8 +224,8 @@ We'll tell you a bit about the main function, but this task is complex and helpe
 
 Write a function that has three parameters:
 
-    * a restaurant file that is open for reading,
-    * the price range (one of $, $$, $$$ and $$$$), and
-    * a list of cuisines. 
+    a restaurant file that is open for reading,
+    the price range (one of $, $$, $$$ and $$$$), and
+    a list of cuisines. 
 
 The function returns a list of restaurants (in that price range, serving at least one of those cuisines), and their ratings sorted from highest to lowest.
