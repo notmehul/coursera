@@ -230,7 +230,7 @@ Write a function that has three parameters:
 
 The function returns a list of restaurants (in that price range, serving at least one of those cuisines), and their ratings sorted from highest to lowest.
 
-# Representing the Data
+## Representing the Data
 
 The first step to solving the restaurant recommendations problem is choosing data structures to store the information on restaurant prices, ratings, and cuisines.
 Examining the Data File
@@ -261,10 +261,10 @@ Deep Fried Everything
 $
 Pub Food
 
-Examining the Data
+### Examining the Data
 We'll organize the data by grouping it according to tasks that we would like to perform.
 
-Rating Information
+#### Rating Information
 
 For each restaurant, we want to be able to look up the rating, so we'll keep track of that information:
 Georgie Porgie: 87
@@ -273,7 +273,7 @@ Dumplings R Us: 71
 Mexican Grill: 85
 Deep Fried Everything: 52
 
-Price Range Information
+#### Price Range Information
 
 We'll also want to look up restaurants by price, so we'll make a list of that data:
 $: Queen St. Cafe, Dumplings R Us, Deep Fried Everything
@@ -281,7 +281,7 @@ $$: Mexican Grill
 $$$: Georgie Porgie
 $$$$:
 
-Cuisine Information
+#### Cuisine Information
 
 Recommendations are made based on types of cuisine as well, so we need to keep track of that information:
 Canadian: Georgie Porgie
@@ -291,7 +291,7 @@ Thai: Queen St. Cafe
 Chinese: Dumplings R Us
 Mexican: Mexican Grill
 
-Choose the data structure
+### Choosing the data structure
 
 What data structures can we use to store this information? We could use strings, lists, tuples or dictionaries. That is a design decision that we need to make.
 Rating Information
@@ -312,11 +312,13 @@ name_to_rating = {'Georgie Porgie': 87,
 'Deep Fried Everything': 52}
 
 Now, to find ratings, we can use the restaurant's name.
+
 >>>name_to_rating['Queen St. Cafe']
 82
 
 This dictionary type can be written as: dict of {str: int}
-Pricing Information
+
+### Pricing Information
 
 Pricing information also looks a lot like a Python dictionary. We would like to be able to look up a price and get all the restaurants in the price range.
 
