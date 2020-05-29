@@ -229,3 +229,136 @@ Write a function that has three parameters:
     a list of cuisines. 
 
 The function returns a list of restaurants (in that price range, serving at least one of those cuisines), and their ratings sorted from highest to lowest.
+
+# Representing the Data
+
+The first step to solving the restaurant recommendations problem is choosing data structures to store the information on restaurant prices, ratings, and cuisines.
+Examining the Data File
+
+Here is the restaurant data from a sample file:
+Georgie Porgie
+87%
+$$$
+Canadian, Pub Food
+
+Queen St. Cafe
+82%
+$
+Malaysian, Thai
+
+Dumplings R Us
+71%
+$
+Chinese
+
+Mexican Grill
+85%
+$$
+Mexican
+
+Deep Fried Everything
+52%
+$
+Pub Food
+
+Examining the Data
+We'll organize the data by grouping it according to tasks that we would like to perform.
+
+Rating Information
+
+For each restaurant, we want to be able to look up the rating, so we'll keep track of that information:
+Georgie Porgie: 87
+Queen St. Cafe: 82
+Dumplings R Us: 71
+Mexican Grill: 85
+Deep Fried Everything: 52
+
+Price Range Information
+
+We'll also want to look up restaurants by price, so we'll make a list of that data:
+$: Queen St. Cafe, Dumplings R Us, Deep Fried Everything
+$$: Mexican Grill
+$$$: Georgie Porgie
+$$$$:
+
+Cuisine Information
+
+Recommendations are made based on types of cuisine as well, so we need to keep track of that information:
+Canadian: Georgie Porgie
+Pub Food: Georgie Porgie, Deep Fried Everything
+Malaysian: Queen St. Cafe
+Thai: Queen St. Cafe
+Chinese: Dumplings R Us
+Mexican: Mexican Grill
+
+Choose the data structure
+
+What data structures can we use to store this information? We could use strings, lists, tuples or dictionaries. That is a design decision that we need to make.
+Rating Information
+
+Our "Rating Information" looks a lot like a Python dictionary, where each key is a restaurant name and each value is a rating.
+
+Let's add some braces and commas to make the structure look more like a Python dictionary. Let's also add quotes around the restaurant names to make them strings. Finally, let's create a variable name name_to_rating that refers to this dictionary:
+Georgie Porgie: 87
+Queen St. Cafe: 82
+Dumplings R Us: 71
+Mexican Grill: 85
+Deep Fried Everything: 52
+	  	→ 	  	
+name_to_rating = {'Georgie Porgie': 87,
+'Queen St. Cafe': 82,
+'Dumplings R Us': 71,
+'Mexican Grill': 85,
+'Deep Fried Everything': 52}
+
+Now, to find ratings, we can use the restaurant's name.
+>>>name_to_rating['Queen St. Cafe']
+82
+
+This dictionary type can be written as: dict of {str: int}
+Pricing Information
+
+Pricing information also looks a lot like a Python dictionary. We would like to be able to look up a price and get all the restaurants in the price range.
+
+The keys (price ranges) look like strings, and the values (restaurant names) look like strings too; however, there can be zero, one or more than one restaurant associated with each price range. Therefore, each value will be a list of str.
+
+Again, adding quotes, commas, brackets, braces and a variable name gives us:
+$: Queen St. Cafe, Dumplings R Us, Deep Fried Everything
+$$: Mexican Grill
+$$$: Georgie Porgie
+$$$$:
+	  	→ 	  	
+price_to_names = {'$': ['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything'],
+'$$': ['Mexican Grill'],
+'$$$': ['Georgie Porgie'],
+'$$$$': []}
+
+We can use this dictionary to find restaurants in a given price range.
+>>>price_to_names['$']
+['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything']
+
+This dictionary type can be written as: dict of {str: list of str}
+Cuisine Information
+
+A dictionary is also suitable for representing cuisine information.
+
+In this case, the type will be dict of {str: list of str}. Each key will be a cuisine and each value will be a list of str, since there can be more than one restaurant for each type of cuisine.
+
+Once again, adding quotes, commas, brakets, braces and a variable name gives us:
+Canadian: Georgie Porgie
+Pub Food: Georgie Porgie, Deep Fried Everything
+Malaysian: Queen St. Cafe
+Thai: Queen St. Cafe
+Chinese: Dumplings R Us
+Mexican: Mexican Grill
+	  	→ 	  	
+cuisine_to_name = {'Canadian': ['Georgie Porgie'],
+'Pub Food': ['Georgie Porgie', Deep Fried Everything'],
+'Malaysian': ['Queen St. Cafe'],
+'Thai': ['Queen St. Cafe'],
+'Chinese': ['Dumplings R Us'],
+'Mexican': ['Mexican Grill']}
+
+We can use this dictionary to find restaurants that serve a particular type of cuisine.
+>>>cuisine_to_name['Chinese']
+['Dumplings R Us'] 
