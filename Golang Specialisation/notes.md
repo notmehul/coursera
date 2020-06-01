@@ -1,19 +1,19 @@
 # Week 1 - Getting Started with GoLang
 
-    efficient as C
-    sharing
-    runs fast
-    garbage collection
-    simpler objects
-    essentially OOP; there is a concept of object
-    object is simplified => makes it faster/simple to use
-    concurrency is efficient
-    machine, assembly, high-level language
-    machine language is executed on CPU; very simple add, mul...
-    assembly - almost machine language but is human readable
-    compiled language with some features of interpreted languages, like Garbage Collection
+    - efficient as C
+    - sharing
+    - runs fast
+    - garbage collection
+    - simpler objects
+    - essentially OOP; there is a concept of object
+    - object is simplified => makes it faster/simple to use
+    - concurrency is efficient
+    - machine, assembly, high-level language
+    - machine language is executed on CPU; very simple add, mul...
+    - assembly - almost machine language but is human readable
+    - compiled language with some features of interpreted languages, like Garbage Collection
 
-    weakly OOP
+    - weakly OOP
     go does not use term “class” but “struct”s (containing data) with associated methods
     no inheritance, no generics, no constructors
 
