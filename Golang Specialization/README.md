@@ -1,4 +1,4 @@
-# Week 1 - Getting Started with GoLang
+# Week 1 - Getting Started with Go
 
     - efficient as C
     - sharing
