@@ -1,31 +1,32 @@
 # Week 1 - Getting Started with Go
 
-    - efficient as C
-    - sharing
-    - runs fast
-    - garbage collection
-    - simpler objects
-    - essentially OOP; there is a concept of object
-    - object is simplified => makes it faster/simple to use
-    - concurrency is efficient
-    - machine, assembly, high-level language
-    - machine language is executed on CPU; very simple add, mul...
-    - assembly - almost machine language but is human readable
-    - compiled language with some features of interpreted languages, like Garbage Collection
+#### About Go:
 
-    - weakly OOP
-    go does not use term “class” but “struct”s (containing data) with associated methods
-    no inheritance, no generics, no constructors
+* efficient as C
+* sharing
+* runs fast
+* garbage collection
+* simpler objects
+* essentially OOP (there is a concept of object)
+* object is simplified => makes it faster/simple to use
+* concurrency is efficient
+* machine, assembly, high-level language
+* machine language is executed on CPU; very simple add, mul...
+* assembly like: almost machine language but is human readable
+* compiled language with some features of interpreted languages, like Garbage Collection
+* weakly OOP:
+    * go does not use term “class” but “struct”s (containing data) with associated methods
+    * no inheritance, no generics, no constructors
+* its implementation of concurrency
 
-    advantages of Go: its implementation of concurrency
-    Moore’s Law not applies anymore: number of transistors is not increasing over time for temperature/power constraints;
-    number of cores is increasing
+#### Hierarchy
 
-    Go recommends directory hierarchy: common organization is good for sharing;
-    src, pkg (libraries), bin
-    one workspace for many directories
-    GOPATH: workspace directory; defined during installation
-    package: group of related source files; can be imported by other packages;first line in source file names the package
+Go recommends directory hierarchy: common organization is good for sharing;
+* src, pkg (libraries), bin
+* one workspace for many directories
+
+GOPATH: workspace directory; defined during installation
+package: group of related source files; can be imported by other packages. first line in source file names the package
 
 
 file1.go:
@@ -44,100 +45,90 @@ import (
    “billpkg”
 )
 
-    There must be one package called main; that’s where execution starts; compiled main package is an executable; other packages compile into packages
-    main package has to have function main
+* There must be one package called main; that’s where execution starts; compiled main package is an executable; other packages compile into packages
+* main package has to have function main
 
-
+```go
 package main
 import “fmt” // note: it’s NOT include!!!
 
 func main() {
    fmt.Printf(“Hello, world\n”)
 }
+```
 
-    import - used to access other packages
-        Import declarations in Go
-    Go standard library includes many packages, like fmt
-    Go searches packages in GOROOT and GOPATH directories first;
+Import - used to access other packages
+Import declarations in Go
+Go standard library includes many packages, like fmt
+Go searches packages in GOROOT and GOPATH directories first;
 
-    Go Tool: > go
-    go build - to compile the source code; when compiling main package.exe file has the same name as .go file
-    go doc - prints documentation for package
-    go format - formats source code files (e.g. indentation...)
-    go get - downloads and installs new packages
+#### Go Command line:
 
-C:\dev\go\src>go get github.com/BojanKomazec/coursera-go-specialization
+go build - to compile the source code; when compiling main package.exe file has the same name as .go file
+go doc - prints documentation for package
+go format - formats source code files (e.g. indentation...)
+go get - downloads and installs new packages
+go list - installs all installed packages
+go run - compiles and executes
+go test - runs tests using files ending in “_test.go”
 
-can't load package: package github.com/BojanKomazec/coursera-go-specialization: no Go files in C:\dev\go\src\github.com\BojanKomazec\coursera-go-specialization
+#### Naming
 
-(but it created a coursera-go-specialization directory regardless, which is good)
-
-    go list - installs all installed packages
-    go run - compiles and executes
-    go test - runs tests using files ending in “_test.go”
-
-    names
-    variables: have to have name and type
-
-
+variables: have to have name and type
+```go
 var x int
 var x, y int
+```
 
-    type defines what type of data and which operations can be performed on the variable
-    floating point
-    strings: unicode
+type defines what type of data and which operations can be performed on the variable
 
-    to improve clarity/readability alias name for type (with type keyword):
+To improve clarity/readability alias name for type (with type keyword):
 
-
+```go
 type Celsius float64
 type IDnum int
 
 var temp Celsius
-var pid IDnum
+var pid IDnum 
 
-    initializing variables
-        in the declaration
-        with explicit type specification
+//initializing variables in the declaration with explicit type specification
 
-var x int = 100
 
-        with implicit type inference
+var x int = 100 //with implicit type inference
 
-var x = 100
-
-        after the declaration
+var x = 100 // aise bhi kar sakte hai if that floats your boat lol
 
 var x int
 x = 100
+// uninitialized variables have value of 0, empty string
 
-    uninitialized variables have value of 0, empty string
-    short variable declaration (:=): declaration & initialization (type is inferred; can be done only inside a function):
 
 x := 100
+// short variable declaration (:=): declaration & initialization (type is inferred; can be done only inside a function):
 
+```
 
 # Week 2 - Basic Data Types
 
-## Pointers
+#### Pointers
 
-    & (ampersand) - gets address of variable or function
-    * (star operator) - returns data at the address; comes before pointer
+* &(ampersand) - gets address of variable or function
+* *(star operator) - returns data at the address; comes before pointer
 
-
+```go
 var x int = 1
 var y int
 var ip *int
 ip = &x
 y = *ip
+```
 
+new() - another way to create a variable; it returns a pointer to a variable; variable is initialized to 0 by default
 
-    new() - another way to create a variable; it returns a pointer to a variable; variable is initialized to 0 by default
-
-
+```go
 ptr := new(int)
 *ptr = 3
-
+```
 
     variable scope - where variable can be accessed
     in Go - variable scoping is done through blocks - sequence of declarations and statements within matching { }
