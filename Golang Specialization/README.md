@@ -130,31 +130,42 @@ ptr := new(int)
 *ptr = 3
 ```
 
-    variable scope - where variable can be accessed
-    in Go - variable scoping is done through blocks - sequence of declarations and statements within matching { }
-    blocks can be hierarchical
-    explicit blocks: when you write { } yourself; e.g. functions - each function has its own block
-    implicit blocks:
-        universe block - all Go source code
-        package block - all source in a package
-        file block - all source in a file (package can contain many files)
-        if, for, switch statements
-        clause in switch or select
-    Lexical scoping - this defines how variable references are resolved; Go is a lexically scoped language using blocks.
-    bi >= bj if bj is defined inside bi ; “defined inside” is transitive
-    variable is looked in the current/local block and then in the next bigger block
-    Variable is accessible from block bj if:
-        variable is declared in bi and
-        bi >= bj
-    variables have to be allocated and deallocated (when is not used anymore so memory space is made available) in memory; this has to be done in a timely fashion - before we run out of memory
-    stack vs heap
-        stack (traditionally, not in Go): dedicated to function calls; local variables for function are allocated in stack; they are deallocated automatically when function returns;
-        heap: persistent memory - you have to explicitly deallocate it; in C: malloc - to allocate; free - to deallocate it; error-prone (if you forget to call free) but fast;
-    Garbage Collection
-    you don’t want to deallocate memory prematurely
-    How to determine when a variable is no longer in use?
+#### Scope
 
+variable scope - where variable can be accessed
 
+in Go, variable scoping is done through blocks(sequence of declarations and statements within matching{})
+
+blocks can be hierarchical
+
+* Explicit blocks: when you write {} yourself; e.g. functions - each function has its own block
+* Implicit blocks:
+    * universe block - all Go source code
+    * package block - all source in a package
+    * file block - all source in a file (package can contain many files)
+    * if, for, switch statements
+    * clause in switch or select
+
+* Lexical scoping - this defines how variable references are resolved; Go is a lexically scoped languageusing blocks.
+
+bi >= bj if bj is defined inside bi ; “defined inside” is transitive
+variable is looked in the current/local block and then in the next bigger block
+Variable is accessible from block bj if:
+* variable is declared in bi and
+*  bi >= bj
+
+variables have to be allocated and deallocated (when is not used anymore so memory space is made available) in memory; this has to be done in a timely fashion - before we run out of memory
+
+### stack vs heap
+* Stack (traditionally, not in Go): dedicated to function calls; local variables for functionareallocated in stack; they are deallocated automatically when function returns;
+* Heap: persistent memory - you have to explicitly deallocate it; in C: malloc - to allocate; free - todeallocate it; error-prone (if you forget to call free) but fast;
+
+### Garbage Collection
+
+you don’t want to deallocate memory prematurely
+How to determine when a variable is no longer in use?
+
+```go
 func foo() *int {
    x := 1
    return &x
@@ -165,101 +176,111 @@ func main() {
    y = foo()
    fmt.Printf(”%d”, *y)
 }
+```
+* GC is done by interpreter; GC keeps track of pointers/references to variables; only when all referencesare gone, it deallocates variable; GC keeps track of;
+compiled languages like C and C++ can’t do this
+* Go is compiled language which has GC built in
+* Go compiler determines whether variable will go on stack or on heap; you don’t need to determine that
+* GC takes some time - that’s the tradeoff
 
-    GC is done by interpreter; GC keeps track of pointers/references to variables; only when all references are gone, it deallocates variable; GC keeps track of;
-    compiled languages like C and C++ can’t do this
-    Go is compiled language which has GC built in
-    Go compiler determines whether variable will go on stack or on heap; you don’t need to determine that
-    GC takes some time - that’s the tradeoff
-    comments: //
-    block comments: /* */
-    fmt.Printf():
-        conversion characters %d, %s
-        https://stackoverflow.com/questions/53961617/call-has-possible-formatting-directive
-    fmt.Prtintln()
-        does NOT support conversion/formatting characters
-        adds a new line character at the end
-        in the output, adds a SPACE character after each argument
-            it's not necessary to add a SPACE explicitly at the end of "a = ", "a =" will work ok:
+```go
+fmt.Printf():
+```
+* conversion characters %d, %s
+* https://stackoverflow.com/questions/53961617/call-has-possible-formatting-directive
+```go
+fmt.Println()
+```
+* does NOT support conversion/formatting characters
+* adds a new line character at the end
+* in the output, adds a SPACE character after each argument
+* it's not necessary to add a SPACE explicitly at the end of "a = ", "a =" will work ok:
 
+```go
 fmt.Println("a =", a)
+```
 
-    ## Integers
-        int
-        int8, int16, int32, int64 (2s complement: most significant bit is used for sign)
-        unsigned: uint8...etc
-        int vs int32 vs in64
-            int is the default signed type: it takes 32 bit (4 bytes) on a 32 bit machine and 64 bit (8 bytes) on a 64 bit machine; the same goes for the unsigned uint. [Why does Go have several different integer types?]
-            The int, uint, and uintptr types are usually 32 bits wide on 32-bit systems and 64 bits wide on 64-bit systems. When you need an integer value you should use int unless you have a specific reason to use a sized or unsigned integer type [A Tour of Go - Basic Types]
-            Pick the right one: int vs. int64
+### Integers
+* int
+* int8, int16, int32, int64 (2s complement: most significant bit is used for sign)
+* unsigned: uint8...etc
+*int vs int32 vs in64
+* int is the default signed type: it takes 32 bit (4 bytes) on a 32 bit machine and 64 bit (8bytes)on a64 bit machine; the same goes for the unsigned uint. [Why does Go have severaldifferentinteger types?]
+* The int, uint, and uintptr types are usually 32 bits wide on 32-bit systems and 64 bits  wideon64-bitsystems. When you need an integer value you should use int unless you have aspecificreason to use asized or unsigned integer type [A Tour of Go - Basic Types]
+* Pick the right one: int vs. int64
 
-
-    Integers: binary operators
-        arithmetic
-        comparison
-        boolean
-    Type conversions
-        most binary operations (including assignment) require both operands to be of the same type
-
+Integers: binary operators
+* arithmetic
+* comparison
+* boolean
+Type conversions
+    most binary operations (including assignment) require both operands to be of the same type
+```go
 var x int32 = 1
 var y int16 = 2
-// [go] cannot use y (type int16) as type int32 in assignment
 x = y
-
-        convert types with T() operation
+// [go] cannot use y (type int16) as type int32 in assignment
+```
+##### convert types with T() operation
 
 x = int32(y)
 
-    ## Floating point
-        float32 ~6 digits of precision
-        float64 ~ 15 digits of precision
-        decimal representation: x float64 = 123.45
-        scientific representation: x float64 = 1.2345e2 (e2 = 10^2; base 10)
-        complex numbers: var z complex128 = complex(2, 3) // real, imaginary
-    strings - sequences of bytes
-    ASCII and UNICODE
-    each character has to be encoded
-        ASCII: 7 or 8 bits: ‘A’ = 0x41
-        UNICODE: 32-bit long code (2 to 32 characters can be represented)
-        UTF-8: variable length - 8-bit codes same as ASCII; default in Go
-            code point (or “rune” in Go): term for a unicode character
-    ## string
-        sequence of arbitrary bytes
-        array of runes
-        read-only (immutable)
-        string literal - between “”
-    Unicode package
-        IsDigit(r rune)
-        IsSpace(r rune)
-        IsLetter(r rune)
-        IsLower(r rune)
-        IsPunct(r rune)
-        ToUpper(r rune)
-        ToLower(r rune)
-    Strings package - looks string as a whole
-        Compare(a, b) - lexicographical comparison; returns -1, 0, 1
-        Contains(s, substr) - returns true/false
-        HasPrefix(s, prefix) - returns true/false
-        Index(s, substring) - returns the index of the 1st instance
-        Replace(s, old, new, n) - returns a copy of s where first n instances of old are replaced by new
-        ToLower(s) - returns new string
-        ToUpper(s) - returns new string
-        TrimSpace(s) - returns new string
-        Go Walkthrough: bytes + strings packages
-    Strconv package (string conversion)
-        Atoi(s) - convert string to int
-        Itoa(n) - converts int to string
-        FormatFloat()
-        ParseFloat()
-    Constants
-        expressions whose value is known in compile time
-        values inferred from right hand side
-        iota - function used to generate related but distinct constants (e.g. days of week) - value is not important, we don’t care about value; like an enumeration; each const is assigned to a unique integer
+### Floating point
+* float32 ~6 digits of precision
+* float64 ~ 15 digits of precision
+* decimal representation: x float64 = 123.45
+* scientific representation: x float64 = 1.2345e2 (e2 = 10^2; base 10)
+* complex numbers: var z complex128 = complex(2, 3) // real, imaginary
 
 
-// in the current implementation iota values start from 1 but this is not guaranteed and can change in future
+### ASCII and UNICODE
+* each character has to be encoded
+* ASCII: 7 or 8 bits: ‘A’ = 0x41
+* UNICODE: 32-bit long code (2 to 32 characters can be represented)
+* UTF-8: variable length - 8-bit codes same as ASCII; default in Go
+* code point (or “rune” in Go): term for a unicode character
+
+### string
+* sequence of arbitrary bytes
+* array of runes
+* read-only (immutable)
+* string literal - between “”
+
+### Unicode package
+* IsDigit(r rune)
+* IsSpace(r rune)
+* IsLetter(r rune)
+* IsLower(r rune)
+* IsPunct(r rune)
+* ToUpper(r rune)
+* ToLower(r rune)
+
+### Strings package - looks string as a whole
+* Compare(a, b) - lexicographical comparison; returns -1, 0, 1
+* Contains(s, substr) - returns true/false
+* HasPrefix(s, prefix) - returns true/false
+* Index(s, substring) - returns the index of the 1st instance
+* Replace(s, old, new, n) - returns a copy of s where first n instances of old are replaced by new
+* ToLower(s) - returns new string
+* ToUpper(s) - returns new string
+* TrimSpace(s) - returns new string
+* Go Walkthrough: bytes + strings packages
+
+### Strconv package (string conversion)
+* Atoi(s) - convert string to int
+* Itoa(n) - converts int to string
+* FormatFloat()
+* ParseFloat()
+
+### Constants
+* expressions whose value is known in compile time
+* values inferred from right hand side
+* iota - function used to generate related but distinct constants (e.g. days of week) - value is not important, we don’t care about value; like an enumeration; each const is assigned to a unique integer
+
+
+* In the current implementation iota values start from 1 but this is not guaranteed and can change in future
 type Grades int
-
+```go
 const (
  A Grades = iota
  B
@@ -270,29 +291,31 @@ const (
 )
 
 fmt.Printf("C = %d", C) // output: C = 2
+```
+## Control flow - determines the order of execution of statements
 
-    Control flow - determines the order of execution of statements
-        if statement
-        for loops
-            iterates while condition is true; condition is always required
-            may have initialization (executed only once) and update (executed at the end of each loop):
+### For loops:
+    * iterates while condition is true; condition is always required
+    * may have initialization (executed only once) and update (executed at the end of each loop):
 
+```go
 for ;; { }
+```
 
-        switch 
-            contains tags (labels)
-        tagless switch
-        break - exits the containing loop
-        continue - skips the current iteration
+### Switch 
+* contains tags (labels)
+* tagless switch
+* break - exits the containing loop
+* continue - skips the current iteration
 
-    scan
-        reads user input
-        waits till user types in something and presses ENTER
-        returns number of scanned items (separated by SPACE) and error
-        has pointer as an argument
-    To scan user input which contains SPACE characters we need to use buffer:
-        String with spaces
-        Golang : Accept input from user with fmt.Scanf skipped white spaces and how to fix it
+### Scan
+* reads user input
+* waits till user types in something and presses ENTER
+* returns number of scanned items (separated by SPACE) and error
+* has pointer as an argument
+To scan user input which contains SPACE characters we need to use buffer:
+* String with spaces
+* Golang : Accept input from user with fmt.Scanf skipped white spaces and how to fix it
 
 
 # Week 3 - Composite Data Types
