@@ -320,62 +320,68 @@ To scan user input which contains SPACE characters we need to use buffer:
 
 # Week 3 - Composite Data Types
 
-    Composite data types - aggregate other data types
+Composite data types - aggregate other data types
 
-## Arrays
+### Arrays
 
-    fixed-length series of elements of a chosen type
-    in compile time is known the length of it - compiler knows how much memory is needed
-    each element is indexed by using subscript notation - index ([ ])
-    indices start from 0
-    elements are initialized to zero value of the type (0 for integers, empty string for strings etc...)
+* fixed-length series of elements of a chosen type
+* in compile time is known the length of it - compiler knows how much memory is needed
+* each element is indexed by using subscript notation - index ([ ])
+* indices start from 0
+* elements are initialized to zero value of the type (0 for integers, empty string for strings etc...)
 
+```go
 var x[5] int // array of 5 integers
 x[0] = 2
 fmt.Printf(x[1]) // 0
+```
 
-    Array literal
-        predefined set of values that make up an array
-        used to initialize an array
-        length of literal must be length of array
+### Array literal
+* predefined set of values that make up an array
+* used to initialize an array
+* length of literal must be length of array
 
+```go
 var x[5] int = [5] {1, 2, 3, 4, 5}
+```
+... (three dots) - keyword; used to express the size of an array literal inferred from the list of values; in the previous example:
 
-    ... (three dots) - keyword; used to express the size of an array literal inferred from the list of values; in the previous example:
-
+```go
 x := [...] {1, 2, 3, 4, 5} //  size of the array literal is 5 
-
-    iterating through array: use a for loop with range keyword; range returns two values: index and value at that index
-
+```
+iterating through array: use a for loop with range keyword; 
+range returns two values: index and value at that index
+```go
 x := [3] int {1, 2, 3}
 for i, v := range x {
    fmt.Printf("index = %d; element value = %d", i, v)
 }
+```
 
-    Only slices, channels and arrays can be used in for-range.
+Only slices, channels and arrays can be used in for-range.
 
+### Slices
 
+* lots of time are used instead of arrays
+* there must be some underlying array which is a basis of the slice
+* slice is a window on the underlying array (larger or of the same size)
+* can change their size; have variable size, up to the size of array
+* has 3 properties:
+    * Pointer - indicates the start of the slice; points to the element of the array where slice starts
+    * Length - number of element in the slice
+    * Capacity - max number of elements; from start of slice to the end of array; e.g. if slice starts at 10th element of the array which has 100 elements => capacity is 90
+* colon (:) is used between m and n; 
+* m - index of (pointer to) the 1st element in the array which is IN the slice 
+* n - index of (pointer to) the 1st element in the array which is NOT in the slice
 
-## Slices
-
-    lots of time are used instead of arrays
-    there must be some underlying array which is a basis of the slice
-    slice is a window on the underlying array (larger or of the same size)
-    can change their size; have variable size, up to the size of array
-    has 3 properties:
-        Pointer - indicates the start of the slice; points to the element of the array where slice starts
-        Length - number of element in the slice
-        Capacity - max number of elements; from start of slice to the end of array; e.g. if slice starts at 10th element of the array which has 100 elements => capacity is 90
-    colon (:) is used between m and n; 
-        m - index of (pointer to) the 1st element in the array which is IN the slice 
-        n - index of (pointer to) the 1st element in the array which is NOT in the slice
-
+```go
 arr := [...]{"a", "b", "c", "d", "e", "f", "g", }
 slice1 := arr[1:3] // {"b", "c",}
 slice2 := arr[2:5] // {"c", "d", "e",}
+```
 
-    len() - returns the length of the slice
-    cap() - returns the capacity of the slice (number of elements in the underlying array from the beginning of the slice to the end of the array)
+* len() - returns the length of the slice
+* cap() - returns the capacity of the slice (number of elements in the underlying array from the beginning of the slice to the end of the array)
 
 a2 := [3]string{"a", "b", "c"}
 slice21 := a2[0:1] // { "a" }
