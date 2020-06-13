@@ -618,23 +618,24 @@ barr := []byte {1, 2, 3}
 nb, err := f.Write(barr)
 nb, err := f.WriteString("Hi")
 
-
+---
 
 # Bonus 
-Project/Code Organization
 
-How should I structure packages for a multiple-binary web application?
-Go: Best Practices for Production Environments
+* Project/Code Organization
 
-Naming Conventions
-Which way to name a function in Go, CamelCase or Semi-CamelCase?
+* How should I structure packages for a multiple-binary web application?
+* Go: Best Practices for Production Environments
 
-How to return both value and error from a function
-Go by Example - Errors
+* Naming Conventions
+* Which way to name a function in Go, CamelCase or Semi-CamelCase?
 
-Unit Testing
-Package testing
-How to test a unexported (private) function in go (golang)?
+* How to return both value and error from a function
+* Go by Example - Errors
+ 
+* Unit Testing
+* Package testing
+* How to test a unexported (private) function in go (golang)?
 
 
 References:
