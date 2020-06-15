@@ -13,7 +13,12 @@ type name struct {
 
 func main() {
 
-	data, _ := ioutil.ReadFile("test.txt")
+	var file string
+
+	fmt.Print("Enter the filename:")
+	fmt.Scan(&file)
+
+	data, _ := ioutil.ReadFile(file)
 	content := string(data)
 
 	words := strings.Fields(content)
