@@ -241,22 +241,24 @@ func ComputeRMS(samples []float) float {} // GOOD. We know what f-n does, and wh
 
 ---
 
-Week 2 - FUNCTION TYPES
-First-Class Values
-Go treats functions as a first-class values
-functions are First-class
-Go implements some features of functional programming
-Go treats functions as any other type like int, float...
-variables can be declared to be a function type and then assigned a function
-functions can be created dynamically, on the fly
-so far we've been creating them dynamically, in the global space we'd use func
-but they can be created dynamically, inside other functions
-functions can be passed as arguments to functions
-functions can be returned from functions
-functions can be stored in structs
-Variables as Functions 
-declare variable as function
-variable becomes an alias (another name) for that function
+## Week 2 - FUNCTION TYPES
+#### First-Class Values
+*  Go treats functions as a first-class values
+*  functions are First-class
+*  Go implements some features of functional programming
+*  Go treats functions as any other type like int, float...
+*  variables can be declared to be a function type and then assigned a function
+*  functions can be created dynamically, on the fly
+*  so far we've been creating them dynamically, in the global space we'd use func
+*  but they can be created dynamically, inside other functions
+*  functions can be passed as arguments to functions
+*  functions can be returned from functions
+*  functions can be stored in structs
+####  Variables as Functions 
+*  declare variable as function
+*  variable becomes an alias (another name) for that function
+
+```go
 var funcVar func(int) int // "func(int) int" is function signature
 
 func incFn(x int) int {
@@ -267,10 +269,12 @@ func main() {
    funcVar = incFn // in assignment just use function name, without () as we're not calling function here
    fmt.Print(funcVar(1))
 }
+```
 
-Functions as Arguments
-functions can be passed to other functions as arguments
-we have to use keyword func
+#### Functions as Arguments
+* functions can be passed to other functions as arguments
+* we have to use keyword func
+```go
 func applyIt(afunc func(int) int, val int) int {
    return afunc(val)
 }
@@ -283,29 +287,34 @@ func main() {
    fmt.Println(applyIt(incFn, 2)) // 3
    fmt.Println(applyIt(decFn, 2)) // 1
 }
+```
 
-Anonymous Functions
-functions don't need to have names
-functions with no name are called anonymous 
-when passing function to another function you usually don't need to name passed function
-function is created right there at the call 
-this comes from lambda calculus
+#### Anonymous Functions
+* functions don't need to have names
+* functions with no name are called anonymous 
+* when passing function to another function you usually don't need to name passed function
+* function is created right there at the call 
+* this comes from lambda calculus
+```go
 func main() {
    v := applyIt(func (x int) int { return x + 1}, 2);
    fmt.Println(v) // 3
 }
+```
 
-Returning Functions
+#### Returning Functions
 Functions as Return Values
-functions can create functions and return them
-new function can have a different set of parameters; controllable parameters
- example: Distance to Origin function
-takes a point (x, y coordinates)
-returns distance to origin
-what if I want to change the origin?
-option1: origin becomes a parameter
-option 2: we create a function for each origin (o_x, o_y)
-origin is build in the returned function
+
+* functions can create functions and return them
+* new function can have a different set of parameters; controllable parameters
+   * example: Distance to Origin function
+* takes a point (x, y coordinates)
+* returns distance to origin
+* what if I want to change the origin?
+   * option1: origin becomes a parameter
+   * option 2: we create a function for each origin (o_x, o_y)
+* origin is build in the returned function
+```go
 func (float64, float64) float64 is the type of the function returned
 func makeDistOrigin(o_x, o_y float64) func (float64, float64) float64 {
    fn := func (x, y float64) float64 {
@@ -313,50 +322,56 @@ func makeDistOrigin(o_x, o_y float64) func (float64, float64) float64 {
   }
   return fn
 }
-Special-Purpose Functions
-we make special-purpose functions by giving them parameters (e.g. Dist1 and Dist2 have different origins)
+```
 
+#### Special-Purpose Functions
+* we make special-purpose functions by giving them parameters (e.g. Dist1 and Dist2 have different origins)
+```go
 func main() {
    Dist1 := MakeDistOrigin(0, 0)
    Dist2 := MakeDistOrigin(2, 2)
    fmt.Println(Dist1(2, 2))
    fmt.Println(Dist2(2, 2))
 }
-
-Environment (Scope) of a Function
-every function has an environment ("scope")
-set of all names that are valid inside a function; that you can refer inside the function
-environment includes names defined locally, in the function
-Lexical Scoping: Go is lexically scoped 
-environment includes names defined in block where the function is defined
-BK: this is called variable capturing 
-when you start passing around functions as arguments, the environment goes along with functions 
+```
+#### Environment (Scope) of a Function
+* every function has an environment ("scope")
+* set of all names that are valid inside a function; that you can refer inside the function
+* environment includes names defined locally, in the function
+* Lexical Scoping: Go is lexically scoped 
+* environment includes names defined in block where the function is defined
+* BK: this is called variable capturing 
+* when you start passing around functions as arguments, the environment goes along with functions 
+```go
 var x int
 func foo(y int) {
    z := 1
    ...
 }
+```
 
-Closure
-function + its environment, together
-in Go, it is implemented as a structure which contains pointer to function and pointer to environment
-when you pass function as an argument to another function, you pass its environment with it
-at the place where this function is executed, it still has an access to variables from the place where it was defined
-e.g. o_x and o_y are carried with returned function, and are accessible when its called later, wherever and whenever is called
-variables are coming from the closure, from the environment where function was defined
+#### Closure
+* function + its environment, together
+* in Go, it is implemented as a structure which contains pointer to function and pointer to environment
+* when you pass function as an argument to another function, you pass its environment with it
+* at the place where this function is executed, it still has an access to variables from the place where it was defined
+   * e.g. o_x and o_y are carried with returned function, and are accessible when its called later, wherever and whenever is called
+* variables are coming from the closure, from the environment where function was defined
+```go
 func makeDistOrigin(o_x, o_y float64) func (float64, float64) float64 {
    fn := func (x, y float64) float64 {
       return math.Sqrt(math.Pow(o_x, 2) + math.Pow(o_y, 2))
    }
    return fn
 }
+```
 
-
-Variadic and Deferred
+#### Variadic and Deferred
 Variable Argument Number
-it is possible to pass variable number or arguments to function; such function is called variadic
-to specify this use ellipsis character: ...
-such argument is treated as a slice inside the function
+* it is possible to pass variable number or arguments to function; such function is called variadic
+* to specify this use ellipsis character: ...
+* such argument is treated as a slice inside the function
+```go
 func getMax(vals ...int) int {
    maxV := -1
    for _, v := range vals {
@@ -366,37 +381,44 @@ func getMax(vals ...int) int {
    }
    return maxV
 } 
+```
 
-
-How to pass list of arguments to variadic function?
-you can pass a comma-separated list of arguments
-you can pass a slice
-need a ... suffix
+#### How to pass list of arguments to variadic function?
+* you can pass a comma-separated list of arguments
+* you can pass a slice
+* need a ... suffix
+```  go
 func main() {
    fmt.Println(getMax(1, 2, 6, 4))
    vslice := []int {1, 3, 6, 4}
    fmt.Println(getMax(vslice...))
 }
+```
 
-Deferred Function Calls
+#### Deferred Function Calls
 
-call can be deferred until surrounding function completes
-they don't get executed where they are explicitly called but after the surrounding function is done
-typically used for cleanup activities
-use keyword defer
+* call can be deferred until surrounding function completes
+* they don't get executed where they are explicitly called but after the surrounding function is done
+* typically used for cleanup activities
+* use keyword defer
+```go
 func main() {
    defer fmt.Println("Bye!") // "Bye!" printed after "Hello!"
    fmt.Println("Hello!")
 }
-the arguments are NOT evaluated in a deferred way, they are evaluated immediately but the call is deferred
-if you pass an argument, it is evaluated right there where defer statement is 
+```
+* the arguments are NOT evaluated in a deferred way, they are evaluated immediately but the call is deferred
+* if you pass an argument, it is evaluated right there where defer statement is 
+```go
 func main() {
    i := 1
    defer fmt.Println(i + 1) // 2 is printed second time
    i++ // 2
    fmt.Println(i) // 2 is printed first time
 }
+```
 
+---
 
 Week 3 - OBJECT ORIENTATION IN GO
 Classes and Encapsulation
