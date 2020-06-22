@@ -671,56 +671,65 @@ func main() {
    * pointer receiver allows modification
 
 # Week 4 - INTERFACES FOR ABSTRACTION
-Polymorphism
-one of OOP properties
-ability of an object to have different "forms" depending on the context
-example: Area() function - the function with the same name can do the same thing but in a different way, depending on the context
-rectangle: area = base * height
-triangle: area = 0.5 * base * height
-these two functions
-at high level of abstraction, they are identical in a way what they do; they do the same thing - compute the area
-at low level of abstraction, they are different, in a way how do they compute the area
-We need Go's support for polymorphism to achieve this
-How is polymorphism implemented in traditional OOP languages?
-Inheritance
-Go does NOT have inheritance
-there are parent-child (base-derived; superclass-subsclass) relations between classes
-superclass is a top level class
-subclass extends from superclass, subclass inherits data and methods from a superclass
-Example: 
-Speaker superclass - represents anything that can make noise/speak
-Speak() method prints "<noise>"
-Subclasses Cat and Dog
-Also have the Speak() method, inherited from the Speaker superclass
-Cat and Dog are different forms of Speaker
-Overriding
-subclass redefines a method inherited from the superclass 
-example: Speaker, Cat, Dog
-Speaker Speak() prints "<noise>"
-Cat Speak() prints "meow"
-Dog Speak() prints "woof"
-without overriding Cat and Dog Speak() methods would print "<noise>" but overriding allows them to redefine Speak() methods to print what they want
-Speak() is polymorphic: in context of Cat it prints "meow" and in context of Dog, it prints "woof"
-although overriden in subclasses, the method keeps the same signature
-Interfaces
-interface is a concept used in Go to help us get polymorphism
-we don't need inheritance or overriding to get polymorphism, we can get it with interfaces
-interface is a set of method signatures (name, parameters, return values)
-implementation is not defined
-it is used to express conceptual similarity between types
-example: Shape2D interface has two methods: Area() and Perimeter()
-all 2D shapes must have Area() and Perimeter()
-any type that has these two methods can be considered to be 2D shape
-Satisfying the Interface
-types satisfies the interface if type defines all methods specified in the interface
-same method signatures (names, args, return values)
-example: Rectangle and Triangle types satisfy the Shape2D interface if:
-have Area() and Perimeter() methods
-Additional methods are OK
-similar to inheritance with overriding
-Defining an Interface Type
-use keyword interface
+#### Polymorphism
+* one of OOP properties
+* ability of an object to have different "forms" depending on the context
+* example: 
+   * Area() function - the function with the same name can do the same thing but in a different way, depending on the context
+   * rectangle: area = base * height
+   * triangle: area = 0.5 * base * height
+* these two functions:
+   * at high level of abstraction, they are identical in a way what they do; they do the same thing - compute the area
+   * at low level of abstraction, they are different, in a way how do they compute the area
+* We need Go's support for polymorphism to achieve this
 
+* How is polymorphism implemented in traditional OOP languages?
+
+#### Inheritance
+* Go does NOT have inheritance
+* there are parent-child (base-derived; superclass-subsclass) relations between classes
+* superclass is a top level class
+* subclass extends from superclass, subclass inherits data and methods from a superclass
+* Example: 
+   * Speaker superclass - represents anything that can make noise/speak
+   * Speak() method prints "<noise>"
+   * Subclasses Cat and Dog
+   * Also have the Speak() method, inherited from the Speaker superclass
+   * Cat and Dog are different forms of Speaker
+
+#### Overriding
+* subclass redefines a method inherited from the superclass 
+* example: 
+   * Speaker, Cat, Dog
+   * Speaker Speak() prints "<noise>"
+   * Cat Speak() prints "meow"
+   * Dog Speak() prints "woof"
+   * without overriding Cat and Dog Speak() methods would print "<noise>" but overriding allows them to redefine Speak() methods to print what they want
+   * Speak() is polymorphic: in context of Cat it prints "meow" and in context of Dog, it prints "woof"
+* although overriden in subclasses, the method keeps the same signature
+
+#### Interfaces
+* interface is a concept used in Go to help us get polymorphism
+* we don't need inheritance or overriding to get polymorphism, we can get it with interfaces
+* interface is a set of method signatures (name, parameters, return values)
+* implementation is not defined
+* it is used to express conceptual similarity between types
+* example:
+   * Shape2D interface has two methods: Area() and Perimeter()
+   * all 2D shapes must have Area() and Perimeter()
+   * any type that has these two methods can be considered to be 2D shape
+* Satisfying the Interface
+* types satisfies the interface if type defines all methods specified in the interface
+* same method signatures (names, args, return values)
+* example:
+   * Rectangle and Triangle types satisfy the Shape2D interface if:
+   * have Area() and Perimeter() methods
+   * Additional methods are OK
+   * similar to inheritance with overriding
+* Defining an Interface Type
+* use keyword interface
+
+```go
 type Shape2D interface {
    Area() float64
    Perimeter() float64
@@ -737,34 +746,42 @@ func (t Triangle) Area() float 64 {
 func (t Triangle) Perimeter() float 64 {
    ...
 }
+```
 
-in the example above, we can say that Triangle implements (satisfies) interface Shape2D
-we don't state explicitly that Triangle implements interface; we just present to compiler the interface and methods and it infers which types can are satisfying which interfaces
-we don't care what data is in Triangle, which fields/properties it has; it only matters that that type is set as receiver type for functions with the same signature as defined in the interface
-Interface vs. Concrete Types
-Concrete vs Interface Types
-concrete and interface types are fundamentally different
-Concrete Type
-a regular type
-Specifies the exact representation of the data and methods 
-fully specified
-complete method implementation included
-it has data which is associated with it
-Interface type:
-just specifies some method signatures
-not data
-implementations are abstracted
-interface type eventually gets mapped to a concrete type
-Interface Values
-can be treated like other values
-assigned to variables
-passed, returned
-interface values have two components
-Dynamic Type: concrete type which it is assigned to (like a class which implements an interface in classic OOP languages)
-Dynamic Value: value of the dynamic type (like an instance of the class which implements an interface in classic OOP languages)
-interface value is actually a pair (dynamic type, dynamic value)
-Defining an Interface Type
+* in the example above, we can say that Triangle implements (satisfies) interface Shape2D
+* we don't state explicitly that Triangle implements interface; we just present to compiler the interface and methods and it infers which types can are satisfying which interfaces
+* we don't care what data is in Triangle, which fields/properties it has; it only matters that that type is set as receiver type for functions with the same signature as defined in the interface
+#### Interface vs. Concrete Types
+#### Concrete vs Interface Types
+* concrete and interface types are fundamentally different
+##### Concrete Type
+* a regular type
+* Specifies the exact representation of the data and methods 
+* fully specified
+* complete method implementation included
+* it has data which is associated with it
 
+##### Interface type:
+* just specifies some method signatures
+* not data
+* implementations are abstracted
+* interface type eventually gets mapped to a concrete type
+
+##### Interface Values
+* can be treated like other values
+* assigned to variables
+* passed, returned
+* interface values have two components
+
+##### Dynamic Type: 
+* concrete type which it is assigned to (like a class which implements an interface in classic OOP languages)
+##### Dynamic Value: 
+* value of the dynamic type (like an instance of the class which implements an interface in classic OOP languages)
+* interface value is actually a pair (dynamic type, dynamic value)
+
+##### Defining an Interface Type
+
+```go
 type Speaker interface {
    Speak()
 }
@@ -783,23 +800,33 @@ func main() {
    s1 = d1 // legal as Dog satisfies interface Speaker; 
    s1.Speak()
 }
-interface type is Speaker
-interface value is s1
-dynamic type is Dog
-dynamic value is d1
-pair is (Dog, d1)
-Interface with Nil Dynamic Value
-an interface can have a nil dynamic value (no dynamic value)
+```
+
+* interface type is Speaker
+* interface value is s1
+* dynamic type is Dog
+* dynamic value is d1
+* pair is (Dog, d1)
+
+##### Interface with Nil Dynamic Value
+* an interface can have a nil dynamic value (no dynamic value)
+
+```go
 var s1 Speaker
 var d1 *Dog // pointer
 s1 = d1 // legal
-d1 is pointer to Dog, it is not concrete object, has no data in it; d1 has no concrete value yet
-s1 has dynamic type - Dog, but has NO dynamic value
-Nil Dynamic Value
-interface with dynamic type but not dynamic value; it is legal to call interface methods on nil dynamic value
-can still call the Speak() method of s1
-doesn't need a dynamic value to call interface methods
-need to check inside the method
+```
+
+* d1 is pointer to Dog, it is not concrete object, has no data in it; d1 has no concrete value yet
+* s1 has dynamic type - Dog, but has NO dynamic value
+
+#### Nil Dynamic Value
+* interface with dynamic type but not dynamic value; it is legal to call interface methods on nil dynamic value
+* can still call the Speak() method of s1
+* doesn't need a dynamic value to call interface methods
+* need to check inside the method
+
+```go
 func(d *Dog) Speak() {
    if d == nil { // does it have dynamic value or not?
       fmt.Println("<noise>")
@@ -812,14 +839,16 @@ var s1 Speaker
 var d1 *Dog
 s1 = d1
 s1.Speak() // it is legal to call function on a non-assigned pointer!
+```
 
-Nil Interface Value
-interface with nil dynamic type
-very different from an interface with a nil dynamic value
-we can't call interface methods as there is no underlying concrete type with methods to call, there is no method implementations
-Nil dynamic value and valid dynamic type
-can call a method since type is known
+#### Nil Interface Value
+* interface with nil dynamic type
+* very different from an interface with a nil dynamic value
+* we can't call interface methods as there is no underlying concrete type with methods to call, there is no method implementations
+* Nil dynamic value and valid dynamic type
+* can call a method since type is known
 example:
+```go
 var s1 Speaker
 var d1 *Dog
 s1 = d1
@@ -828,38 +857,43 @@ Nil dynamic type
 cannot call a method, runtime error
 var s1 Speaker
 s1.Speak() // error!
+```
 
+#### Using Interfaces
+* why would we need interfaces? why are they used?
+* Ways to Use an Interface
+* need a function which takes multiple types of parameter
+* e.g. 
+   * we want function to take either type int or type float
+   * we want function foo() to accept parameter of type X or type Y
+* we can:
+   * define interface Z
+   * make types X and Y satisfy Z (BK: this is something like class extensions...as any type can at any time be extended to satisfy any interface; this can happen after some concrete type is defined)
+   * make Z to be the type of the foo() argument
+* interface methods must be those needed (called) by foo()
 
-Using Interfaces
-why would we need interfaces? why are they used?
-Ways to Use an Interface
-need a function which takes multiple types of parameter
-e.g. we want function to take either type int or type float
-we want function foo() to accept parameter of type X or type Y
-we can:
-define interface Z
-make types X and Y satisfy Z (BK: this is something like class extensions...as any type can at any time be extended to satisfy any interface; this can happen after some concrete type is defined)
-make Z to be the type of the foo() argument
-interface methods must be those needed (called) by foo()
- Pool in a Yard
-I need to put a pool in my yard
-Pool needs to fit in my yard
-total area must be limited
-Pool needs to be fenced
-total perimeters must be limited
-Need to determine if a pool shape satisfies criteria
-FitInYard() bool
-takes a shape as argument
-returns true if the shape satisfies criteria
-FitInYard()
-many possible shape types
-rectangle, triangle, circle, etc...
-FitInYard() should take many shape types
-Valid shape types must have:
-Area()
-Perimeter()
-Any shape with these methods is OK
-Interface for Shapes
+* EXAMPLE (Pool in a Yard)
+   * I need to put a pool in my yard
+   * Pool needs to fit in my yard
+   * total area must be limited
+   * Pool needs to be fenced
+   * total perimeters must be limited
+   * Need to determine if a pool shape satisfies criteria
+      * FitInYard() bool
+   * takes a shape as argument
+   * returns true if the shape satisfies criteria
+      * FitInYard()
+   * many possible shape types
+   * rectangle, triangle, circle, etc...
+   * FitInYard() should take many shape types
+   * Valid shape types must have:
+      * Area()
+      * Perimeter()
+   * Any shape with these methods is OK
+
+##### Interface for Shapes
+
+```go
 type Shape2D interface {
    Area() float64
    Perimeter float64
@@ -881,37 +915,46 @@ func FitInYard(s Shape2D) bool {
       return false
    }
 }
-parameter is any type that satisfies Shape2D interface
-Empty Interface
-specifies no methods
-all types satisfy the empty interface
-use it to have a function accept any type as a parameter
-use interface{} to specify it
-val can be any type
+
+```
+
+* parameter is any type that satisfies Shape2D interface
+
+##### Empty Interface
+* specifies no methods
+* all types satisfy the empty interface
+* use it to have a function accept any type as a parameter
+* use interface{} to specify it
+* val can be any type
+```go
 func PrintMe(val interface{}) {
    fmt.Println(val)
 }
+```
 
-Type Assertions
-Concealing Type Differences
-a lot of point of interfaces is to hide differences (or highlight similarities) between types
-example: Triangles and Rectangles are treated in the same way in FitInYard() - as long as they satisfy Shape2D interface
-different types which has some similarities are treated in the same way
-sometimes you need to treat different types in different ways
-sometimes we need to differentiate based on the type, to figure out what is the concrete type
-in FitInYard() it does not matter what is the concrete type; it can be Rectangle or Triangle
-Exposing Type Differences
-example: Graphics program
-DrawShape() will draw any shape, it can take any Shape2D as an argument
-func DrawShape(s Shape2D) { ...
-Underlying API has different drawing functions for each shape so they have to take particular, specific, concrete types as arguments:
-func DrawRect (r Rectangle) { ...
-func DrawTriangle (t Triangle) { ...
-Inside DrawShape() we need to find out what is the concrete type of s so we know which underlying function to call; concrete type must be determined
-type assertions are used for that
-Type Assertions for Disambiguation
-type assertions can be used to determine and extract the underlying concrete type 
+#### Type Assertions
+##### Concealing Type Differences
+* a lot of point of interfaces is to hide differences (or highlight similarities) between types
+* example:
+   * Triangles and Rectangles are treated in the same way in FitInYard() - as long as they satisfy Shape2D interface
+   * different types which has some similarities are treated in the same way
+   * sometimes you need to treat different types in different ways
+   * sometimes we need to differentiate based on the type, to figure out what is the concrete type
+   * in FitInYard() it does not matter what is the concrete type; it can be Rectangle or Triangle
+* Exposing Type Differences
+* example:
+   * Graphics program
+   * DrawShape() will draw any shape, it can take any Shape2D as an argument
+   * func DrawShape(s Shape2D) { ...
+   * Underlying API has different drawing functions for each shape so they have to take particular, specific, concrete types as arguments:
+   * func DrawRect (r Rectangle) { ...
+   * func DrawTriangle (t Triangle) { ...
+   * Inside DrawShape() we need to find out what is the concrete type of s so we know which underlying function to call; concrete type must be determined
+   * type assertions are used for that
+   * Type Assertions for Disambiguation
+   * type assertions can be used to determine and extract the underlying concrete type 
 
+```go
 func DrawShape(s Shape2D) bool {
    rect, ok := s.(Rectangle)
    if ok {
@@ -922,23 +965,25 @@ func DrawShape(s Shape2D) bool {
       DrawTriangle(tri)
    }
 }
+```
 
-type assertions extract Rectangle from Shape2D
-concrete type has to be specified in parentheses
-If interface contains specified concrete type 
-rect == specified concrete type
-ok == true
-If interface does not contain concrete type 
-rect == zero value for that type
-ok == false
+* type assertions extract Rectangle from Shape2D
+* concrete type has to be specified in parentheses
+* If interface contains specified concrete type 
+* rect == specified concrete type
+* ok == true
+* If interface does not contain concrete type 
+* rect == zero value for that type
+* ok == false
 
-Type Switch 
+#### Type Switch 
 
 Interface can be satisfied by many concrete types; we might be interested only in some of them
 Another way to do this disambiguation is to use switch
 switch statement used with a type assertion
 use keyword type in parentheses: .(type)
 if s is Triangle then sh will be Triangle
+```go
 func DrawShape(s Shape2D) bool {
    switch := sh := s.(type) {
    case Rectangle:
@@ -947,27 +992,31 @@ func DrawShape(s Shape2D) bool {
       DrawTriangle(sh)
    }
 }
+```
 
+#### Error Handling
+* common use of Error interface in Go
+##### Error Interface
+* there are lot of Go functions built in packages where return two values: 
+   * value
+   * error (error interface objects which indicates an error)
 
- Error Handling
-common use of Error interface in Go
-Error Interface
-there are lot of Go functions built in packages where return two values: 
-value
-error (error interface objects which indicates an error)
-
+```go
 type error interface {
    Error() string // prints the error message
 }
+```
 
-correct / successful operation: error == nil
-incorrect / failed operation: error != nil
-if Go function returns an error (usually as a second value) you should check that error and handle it! (BK: compiler will complain if returned error is not checked explicitly in the code)
+* correct / successful operation: error == nil
+* incorrect / failed operation: error != nil
+* if Go function returns an error (usually as a second value) you should check that error and handle it! (BK: compiler will complain if returned error is not checked explicitly in the code)
+
+```go
 f, err := os.Open("harris/test.txt")
 if err != nil {
    fmt.Println(err)
    return
 }
-
-check whether error is nil
-if it's not nil, handle it
+```
+* check whether error is nil
+* if it's not nil, handle it
