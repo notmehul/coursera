@@ -8,3 +8,5 @@ lol look how optimistic I was about this course and ab dekho
 leaving this course for udacity PIECE OF SHIT COURSE
 
 back to this course lol kya kar sakte ab F
+
+oof Imma just complete this python and dekhunga aage kya karna
