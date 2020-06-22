@@ -1,4 +1,4 @@
-## Week 1 - FUNCTIONS AND ORGANIZATION
+# Week 1 - FUNCTIONS AND ORGANIZATION
 
 #### Why Use Functions?
 
@@ -241,7 +241,7 @@ func ComputeRMS(samples []float) float {} // GOOD. We know what f-n does, and wh
 
 ---
 
-## Week 2 - FUNCTION TYPES
+# Week 2 - FUNCTION TYPES
 #### First-Class Values
 *  Go treats functions as a first-class values
 *  functions are First-class
@@ -420,59 +420,71 @@ func main() {
 
 ---
 
-Week 3 - OBJECT ORIENTATION IN GO
-Classes and Encapsulation
-Classes 
-What is OOP?
-Go supports OOP
-It does not have classes but something equivalent (structs)
-What is class? Collection of data fields and functions that share a well-defined responsibility (they are all related to the same concept)
-function in a class is called a method
-Example: Point class
-used in geometry program
-data: x and y coordinate
-functions:
-DistToOrigin(), Quadrant()
-AddXOffset(), AddYOffset()
-SetX(), SetY()
-class is a template; contains fields, not data
-Object
-instance of the class
-contains data
-Example: instances of Point class
-Encapsulation
-associated with OOP (and generally, with abstraction)
-if there is a program using your class, you want to hide details
-you want to prevent someone changing internal data; therefore we provide public methods that shall be used to modify the state of the object from the outside
-Example: double distance to origin (double x and y)
-option 1 (safe): expose method DoubleDist() which doubles x and y internally
-option 2 (not safe): allow programmer to access x and y directly; but programmer can make mistake if for example they double x but forget to double y
-by exposing methods we prevent such mistakes and object will always be in good state
-Support for Classes (1)
-No "class" keyword
+# Week 3 - OBJECT ORIENTATION IN GO
+### Classes and Encapsulation
+#### Classes 
 
-there is no "class" keyword in Go
-most OO languages have class keyword
-Data fields and methods are defined inside a class block
+* What is OOP?
+   * Go supports OOP
+   * It does not have classes but something equivalent (structs)
+* What is class?
+   * Collection of data fields and functions that share a well-defined responsibility (they are all related to the same concept)
+* function in a class is called a method
+* Example:
+   * Point class
+   * used in geometry program
+   * data:
+      * x and y coordinate
+   * functions:
+      * DistToOrigin(), Quadrant()
+      * AddXOffset(), AddYOffset()
+      * SetX(), SetY()
+* class is a template; contains fields, not data
+
+#### Object
+* instance of the class
+* contains data
+* Example:
+   * instances of Point class
+
+#### Encapsulation
+* associated with OOP (and generally, with abstraction)
+* if there is a program using your class, you want to hide details
+* you want to prevent someone changing internal data; therefore we provide public methods that shall be used to modify the state of the object from the outside
+* Example:
+   * double distance to origin (double x and y)
+   * option 1 (safe): expose method DoubleDist() which doubles x and y internally
+   * option 2 (not safe): allow programmer to access x and y directly; but programmer can make mistake if for example they double x but forget to double y
+* by exposing methods we prevent such mistakes and object will always be in good state
+
+#### Support for Classes in Go (Part 1)
+* No "class" keyword
+* there is no "class" keyword in Go
+* most Object Oriented languages have class keyword
+* Data fields and methods are defined inside a class block
+
 example in Python:
-
+```python
 class Point:
    def _init_(self, xval, yval):
       self.x = xval
       self.y = yval
+```
 
+#### Associating Methods with Data
 
-Associating Methods with Data
-Go has different way of associating methods with data
-Go is using "receiver types"
-data is some type 
-method has a receiver type that it is associated with
-BK: the approach is the same as in C: we have some struct type and if some function has to deal with it, we just pass to it a pointer to that struct. The terminology reminds me of Objective-C
-type and function have to be defined in the same package
-when we call a method we use dot notation
-example: we want to associate function Double with our custom type MyInt
-MyInt is the receiver type - it is specified before the name of the function
-mi is the receiver object (instance of the receiver type) that double would be called on
+* Go has different way of associating methods with data
+* Go is using "receiver types"
+* data is some type 
+* method has a receiver type that it is associated with
+* BK: the approach is the same as in C: we have some struct type and if some function has to deal with it, we just pass to it a pointer to that struct. The * terminology reminds me of Objective-C
+* type and function have to be defined in the same package
+* when we call a method we use dot notation
+* example:
+   * we want to associate function Double with our custom type MyInt
+   * MyInt is the receiver type - it is specified before the name of the function
+   * mi is the receiver object (instance of the receiver type) that double would be called on
+```go
 type MyInt int
 
 func (mi MyInt) Double () int { 
@@ -483,28 +495,38 @@ func main() {
    v := MyInt(3)
    fmt.Println(v.Double())
 }
+```
 
-Double() could be defined for multiple types (to have multiple receiver types); Go looks what's the type left of the dot (.) operator to find out what is the receiver type (and so which Double() function to call)
-in the example above mi becomes an implicit argument of function Double() (just like this - pointer to the current instance of the class - is an implicit argument in C++ classes' methods)
-Implicit Method Arguments
-although it seems that Double() takes no arguments, there is one implicit (hidden) argument: and instance (object) of the receiver type
-object v is an implicit argument to the method
-call by value (that's how argument passing is done in Go)
-a copy of v is made and passed to the function
+* Double() could be defined for multiple types (to have multiple receiver types); Go looks what's the type left of the dot (.) operator to find out what is the receiver type (and so which Double() function to call)
+* in the example above mi becomes an implicit argument of function Double() (just like this - pointer to the current instance of the class - is an implicit argument in C++ classes' methods)
 
-Support for Classes (2)
-in a normal OOP language lots of different data (fields in class) is associated with any number of methods
-the same can be done in Go: we'll just make a struct with lots of various data and make it to be a receiver type
-in struct you can group together arbitrary number of arbitrary data 
-Structs, again
-struct types compose data fields 
-this is traditional feature of classes
+#### Implicit Method Arguments
+
+* although it seems that Double() takes no arguments, there is one implicit (hidden) argument: and instance (object) of the receiver type
+* object v is an implicit argument to the method
+* call by value (that's how argument passing is done in Go)
+* a copy of v is made and passed to the function
+
+#### Support for Classes in Go (Part 2)
+* in a normal OOP language lots of different data (fields in class) is associated with any number of methods
+* the same can be done in Go: we'll just make a struct with lots of various data and make it to be a receiver type
+* in struct you can group together arbitrary number of arbitrary data 
+
+#### Structs, again
+   * struct types compose data fields 
+   * this is traditional feature of classes
+
+```go
 type Point struct {
    x float64
    y float64
 }
-Structs with Methods
-structs and methods together allow arbitrary data and functions to be composed
+```
+
+#### Structs with Methods
+
+* structs and methods together allow arbitrary data and functions to be composed
+```go
 func (p Point) DistToOrig() {
    t := math.Pow(p.x, 2) + math.Pow(p.y, 2)
    return math.Sqrt(t)
@@ -514,21 +536,27 @@ func main() {
    p1 := Point(3, 4)
    fmt.Println(p1.DistToOrig())
 }
+```
 
-Encapsulation
-Controlling Access
-Go provides lots of different support of encapsulation and how to keep data private
-we want to be able to control data access
-we want people to use data in a way we define - via functions/methods
-we can define a set of public functions that allow another/external package to access the data
-package data
+#### Encapsulation
 
+* Controlling Access
+   * Go provides lots of different support of encapsulation and how to keep data private
+   * we want to be able to control data access
+   * we want people to use data in a way we define - via functions/methods
+   * we can define a set of public functions that allow another/external package to access the data
+
+* package data
+
+```go
 var x int = 1
 
 func PrintX() {
    fmt.Println(x)
 }
+```
 -------------------
+```go
 package main
 
 import "data"
@@ -536,14 +564,20 @@ import "data"
 func main() {
    data.PrintX()
 }
-PrintX function starts with capital leter => it gets exported
-package main can access (see) x only through that exported function 
-x can't be modified externally in the example above but we can allow that if we export another method which allows that
-Controlling Access to Structs
-we can do something similar to struct members
-hide fields of structs by starting field name with lower-case letter
-define public methods which access hidden data
-example: need InitMe() to assign hidden data fields
+```
+
+* PrintX function starts with capital leter => it gets exported
+* package main can access (see) x only through that exported function 
+* x can't be modified externally in the example above but we can allow that if we export another method which allows that
+
+* Controlling Access to Structs
+   * we can do something similar to struct members
+   * hide fields of structs by starting field name with lower-case letter
+   * define public methods which access hidden data
+   * example:
+      * need InitMe() to assign hidden data fields
+
+```go
 package data
 
 type Point struct {
@@ -564,8 +598,9 @@ func (p *Point) Scale (v float64) {
 func (p *Point) PrintMe() {
    fmt.Println(p.x, p.y)
 }
-
+```
 -----------------------------
+```go
 package main
 import "data"
 
@@ -575,58 +610,67 @@ func main() {
    p.Scale(2)
    p.PrintMe()
 }
+```
+* access to hidden fields only through public methods
 
-access to hidden fields only through public methods
-Point Receivers
-Limitations of Methods
-there are some limitations to the process of associating methods with receiver types we described above
-(1)  Method cannot change the state of receiver object as it's passed by value 
-receiver type/object is implicitly passed to the method
-it is passed by value (like any function argument in Go) => method receives only its copy => method can't change receiver object (method can't modify  the data inside the receiver)
-example: OffsetX() should increase coordinate x in object p1
+##### Point Receivers
+* Limitations of Methods
+* there are some limitations to the process of associating methods with receiver types we described above
+   * Method cannot change the state of receiver object as it's passed by value 
+   * receiver type/object is implicitly passed to the method
+   * it is passed by value (like any function argument in Go) => method receives only its copy => method can't change receiver object (method can't modify  the data inside the receiver)
+   * example: OffsetX() should increase coordinate x in object p1
+```go
 func main() {
    p1 := Point(3, 4)
    p1.OffsetX(5)  // only temp copy of p1 inside OffsetX() is changed
 }
-(2) Large Receivers
+```
 
-if receiver object is large, lots of copying is required when you make a call
-all object is copied onto the stack
+* Large Receivers
+
+   * if receiver object is large, lots of copying is required when you make a call
+   * all object is copied onto the stack
+```go
 type image [100][100]int
 func main(){
    i1 := GrabImage()
    i1.BlurImage() // 10000 bytes gets copied on stack - this can be slow
 }
+```
 
-Solution:
+##### Solution:
 
-Pointer Receivers
-instead of passing objects by value we can pass by reference (pointer)
-instead of using regular types for receiver types, we can use pointer to those types as receiver type
+* Pointer Receivers
+   * instead of passing objects by value we can pass by reference (pointer)
+   * instead of using regular types for receiver types, we can use pointer to those types as receiver type
+```go
 func (p *Point) OffsetX(v float64) {
    p.x = p.x + v
 }
+```
 
-Point Receivers, Referencing, Dereferencing
-No Need to Dereference
-when using a pointer receiver there is no need to perform explicit dereferencing (as in the previous example where Point is referenced as p, not *p)
-dereferencing is automatic with . operator
-No Need to Reference
-
+* Point Receivers, Referencing, Dereferencing
+   * No Need to Dereference
+   * when using a pointer receiver there is no need to perform explicit dereferencing (as in the previous example where Point is referenced as p, not *p)
+   * dereferencing is automatic with . operator
+   * No Need to Reference
+```go
 func main() {
    p := Point(3, 4)
    p.OffsetX(5)  // no need to do something like (&p).OffsetX()
    fmt.Println(p.x)
 }
+```
 
-Using Pointer Receivers
-Good programming practice
-all methods for a type have pointer receivers, or 
-all methods for a type have non-pointer receivers
-This is for mixing pointer/non-pointer receivers for a type will get confusing
-pointer receiver allows modification
+* Using Pointer Receivers
+   * Good programming practice
+   * all methods for a type have pointer receivers, or 
+   * all methods for a type have non-pointer receivers
+   * This is for mixing pointer/non-pointer receivers for a type will get confusing
+   * pointer receiver allows modification
 
-Week 4 - INTERFACES FOR ABSTRACTION
+# Week 4 - INTERFACES FOR ABSTRACTION
 Polymorphism
 one of OOP properties
 ability of an object to have different "forms" depending on the context
