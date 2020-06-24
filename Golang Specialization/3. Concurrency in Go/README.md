@@ -1,10 +1,5 @@
-<title>
-Concurrency in Go - Notes on Coursera course | My Public Notepad
-</title>
-
-<body>
 <h3>
-Concurrency in Go - Notes on Coursera course
+Concurrency in Go
 </h3>
 <h2 style="text-align: left;">
 Week 1 -&nbsp;Why Use Concurrency?</h2>
