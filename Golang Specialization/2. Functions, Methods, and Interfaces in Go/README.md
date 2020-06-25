@@ -1,4 +1,4 @@
-# Week 1 - FUNCTIONS AND ORGANIZATION
+# Week 1 - FUNCTIONS & ORGANIZATION
 
 #### Why Use Functions?
 
